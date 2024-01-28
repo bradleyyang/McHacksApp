@@ -6,7 +6,6 @@ import base64
 import numpy as np
 import pytesseract
 import cv2
-import math 
 
 
 app = Flask(__name__)
@@ -22,6 +21,8 @@ class Receipt:
         self.date = date
         self.location = location
         self.price = price
+    
+    
 
 
 @app.route("/upload", methods=['POST'])
