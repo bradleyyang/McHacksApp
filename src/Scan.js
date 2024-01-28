@@ -198,7 +198,7 @@ const Scan = () => {
         return (
             <div className="page-setup">
                 <Navbar />
-                <div className="align-middle items-center justify-items-center flex justify-center h-screen flex-col">
+                <div className="align-middle items-center justify-items-center flex justify-center h-screen flex-col gap-4">
                     <WebcamOpen />
                     <button
                         className="rounded-full border-solid w-40 h-12 bg-purple-400 text-white"
