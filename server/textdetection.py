@@ -15,6 +15,16 @@ parser.add_argument('imgSrc', required=True)
 
 receipts = []
 
+class Receipt:
+    def __init__(self, name, date, location, price):
+        self.name = name
+        self.date = date
+        self.location = location
+        self.price = price
+    
+    
+
+
 @app.route("/upload", methods=['POST'])
 def uploadSnapshot():
     data = request.json
