@@ -1,26 +1,31 @@
 import { BiAtom } from "react-icons/bi";
+import { GrAddCircle } from "react-icons/gr";
+import { Link } from "react-router-dom";
 
 const NavbarIcon = ({ icon }) => {
-    return(
+    return (
         <div className="sidebar-icon">
-        {icon}
+            {icon}
         </div>
     );
-    
+
 }
 
 const Navbar = () => {
-    return ( 
-        <div className="fixed h-screen top-0 left-0 w-48 m-0 
+    return (
+        <div className="h-screen w-52 m-0 
         flex flex-col
         bg-gray-900 text-white shadow-lg">
-            <NavbarIcon icon={<BiAtom size={56}/>} />
-            <NavbarIcon icon={BiAtom} />
+            <NavbarIcon icon={<BiAtom size={108} />} />
+            <Link to="/upload">
+                <NavbarIcon icon={<GrAddCircle size={108} />} />
+            </Link>
+
             <NavbarIcon icon={BiAtom} />
         </div>
-     );
+    );
 }
 
 
- 
+
 export default Navbar;
