@@ -15,21 +15,7 @@ import mysql.connector
 from mysql.connector import Error
 
 
-
-
 app = Flask(__name__)
-
-parser = reqparse.RequestParser()
-parser.add_argument('imgSrc', required=True)
-
-receipts = []
-
-class Receipt:
-    def __init__(self, name, date, location, price):
-        self.name = name
-        self.date = date
-        self.location = location
-        self.price = price
 
 @app.route('/update-receipt/<receipt_id>', methods=['PUT'])
 def updateReceipt(receipt_id):
@@ -86,6 +72,37 @@ def getReceipts():
     
     cursor = db.cursor()
     cursor.execute("SELECT * FROM receipts") 
+    data = cursor.fetchall() 
+    cursor.close()
+    return data
+
+@app.route("/get-receipt/<receipt_id>")
+def getByID(receipt_id):
+    db = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="Dermott23!",
+        database="mcHacksDB"
+        )
+    
+    cursor = db.cursor()
+    cursor.execute("SELECT * FROM receipts WHERE id = %s", (receipt_id, )) 
+    data = cursor.fetchall()
+    cursor.close()
+    return data
+
+
+@app.route("/get-latest")
+def getLatest():
+    db = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="Dermott23!",
+        database="mcHacksDB"
+        )
+    
+    cursor = db.cursor()
+    cursor.execute("SELECT id FROM receipts ORDER BY id DESC LIMIT 1") 
     data = cursor.fetchall() 
     cursor.close()
     return data
@@ -165,22 +182,21 @@ def uploadSnapshot():
                 
         total = total_price(find_prices(word_list(detectedText)))
         location = find_location(line_list(detectedText))
-        name = 'placeholder'
+        name = 'Unnamed Expense'
         date = find_date(word_list(detectedText))
 
         if total is None:
-            total = 'No match'
+            total = 'Couldn\'t find a match'
         if location is None:
-            location = 'No match'
+            location = 'Couldn\'t find a match'
         if date is None:
-            date = 'no match'
+            date = 'Couldn\'t find a match'
 
 
         print(total)
 
         print(date)
         print(location)
-        newReceipt = Receipt(name, date, location, total)
 
         db = mysql.connector.connect(
         host="localhost",
@@ -211,36 +227,6 @@ def uploadSnapshot():
     
     else:
         return ''
-
-
-    
-        
-            
-    
-    
-        
-
-
-
-        
-
-        
-
-
-
-        # lines = detectedText.split('\n')
-        # words = detectedText.split(' ')
-        # receipts.append(detectedText)
-        
-    #     return ""
-    
-    # return ""
-
-    
-
-@app.route("/data")
-def data():
-    return receipts
 
 if __name__ == "__main__":
     app.run(debug=True)

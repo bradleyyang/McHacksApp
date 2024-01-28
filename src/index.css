@@ -18,12 +18,11 @@ body {
 
   .receipt {
     @apply flex flex-col h-96 w-60 p-8 bg-slate-50 min-h-80
-    hover:rotate-3 hover:scale-105 transition-transform duration-150 ;
+    hover:rotate-3 hover:scale-105 transition-transform duration-150;
   }
 
   .page-setup {
-    
     @apply grid gap-8;
-    grid-template-columns: 208px 1fr
+    grid-template-columns: 224px 1fr
   }
 }

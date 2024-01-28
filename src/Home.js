@@ -18,9 +18,9 @@ const Home = () => {
 
     const Receipts = () => {
         return (
-            <div className="overflow-y-scroll  h-screen snap-y flex flex-col gap-8 p-4">
+            <div className="overflow-y-scroll  h-screen flex flex-col gap-8 p-4">
                 {receiptList.map((r) => (
-                    <Receipt key={r.id} receipt={r} />
+                    <Receipt key={r.id} receipt={r} className=""/>
                 ))}
             </div>
         );
