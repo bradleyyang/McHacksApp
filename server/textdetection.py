@@ -31,71 +31,49 @@ class Receipt:
         self.location = location
         self.price = price
 
-@app.route('/test', methods=['POST'])
-def write():
+@app.route('/update-receipt/<receipt_id>', methods=['PUT'])
+def updateReceipt(receipt_id):
+    data = request.json
+
+    name = data.get('name')
+    price = data.get('price')
+    location = data.get('location')
+    date = data.get('date')
+
     db = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="Dermott23!",
-    database="mcHacksDB"
-)
+        host="localhost",
+        user="root",
+        password="Dermott23!",
+        database="mcHacksDB"
+        )
+    cursor = db.cursor()
+    cursor.execute("UPDATE receipts SET name = %s, price = %s, location = %s, date = %s WHERE id = %s", (name, price, location, date, receipt_id))
+
+
+    db.commit()
+    cursor.close()
+    return "successfully updated data entry"
+
+
+
+
+@app.route('/delete/<receipt_id>', methods=['DELETE'])
+def deleteData(receipt_id):
+    db = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="Dermott23!",
+        database="mcHacksDB"
+        )
+    cursor = db.cursor()
+    cursor.execute('DELETE FROM receipts WHERE id = %s', (receipt_id,))
+    db.commit()
+
+    cursor.close()
+    return "successfully deleted data entry"
     
-    try:
-        cursor = db.cursor()
-
-        query = 'INSERT INTO receipts (name, location, price, date) VALUES (%s, %s, %s, %s)'
-        values = ('name', 'location', 'price', 'data')
-
-
-        cursor.execute(query, values)
-        db.commit()
-        return("data added successfully")    
-    except Error as e:
-        db.rollback()
-        return("Error")
-    finally:
-        if db.is_connected():
-            cursor.close()
-            db.close()
-
-
-# @app.route('/list')
-# def list():
-#     # Connect to the SQLite3 database and 
-#     # SELECT rowid and all Rows from the receipts table.
     
-#     con = sqlite3.connect("database.db")
-#     con.row_factory = sqlite3.Row
-
-#     cur = con.cursor()
-#     cur.execute("SELECT rowid, * FROM receipts")
-
-#     rows = cur.fetchall()
-#     con.close()
-#     # Send the results of the SELECT to the result.html page
-#     return render_template("result.html",rows=rows)
-
-# @app.route("/addrec", methods = ['POST', 'GET'])
-# def addrec():
-#     # Data will be available from POST submitted by the form
-#     if request.method == 'POST':
-#         try:
-            
-#             # Connect to SQLite3 database and execute the INSERT
-#             with sqlite3.connect('database.db') as con:
-#                 cur = con.cursor()
-#                 cur.execute("INSERT INTO receipts (name TEXT, location TEXT, price TEXT, date TEXT) VALUES (?,?,?,?)",("1", "2", "3", "4"))
-
-#                 con.commit()
-#                 msg = "Record successfully added to database"
-#         except:
-#             con.rollback()
-#             msg = "Error in the INSERT"
-
-#         finally:
-#             con.close()
-#             # Send the transaction message to result.html
-#             return render_template('result.html',msg=msg)
+    
 
 @app.route("/get-receipts")
 def getReceipts():
@@ -107,14 +85,10 @@ def getReceipts():
         )
     
     cursor = db.cursor()
-
-        
-        
     cursor.execute("SELECT * FROM receipts") 
     data = cursor.fetchall() 
     cursor.close()
     return data
-
 
 @app.route("/upload", methods=['POST'])
 def uploadSnapshot():

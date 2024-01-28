@@ -9,6 +9,7 @@ const Scan = () => {
     const [img, setImg] = useState(null);
 
     const [buttonMsg, setButtonMsg] = useState('Scan Receipt');
+    const [receiptInputs, setReceiptInputs] = useState(false);
 
 
     const webcamRef = useRef(null);
@@ -45,11 +46,15 @@ const Scan = () => {
 
     }, [webcamRef]);
 
+    function handleUpload() {
+        
+    }
+
     function WebcamOpen() {
         if (openedWebcam === false) {
             return (
                 <div className="flex-col flex align-middle items-center">
-                    <input type="file" name="" id="" className="flex flex-col"/>
+                    <input type="file" name="" id="" className="flex flex-col" onChange={handleUpload} accept="image/jpeg, image/jpg, image/png"/>
                     <p>Or</p>
                 </div>
             );
@@ -87,31 +92,41 @@ const Scan = () => {
     //     reader.readAsDataURL(file);
     // })
 
+    if (receiptInputs) {
+        return(
+            <div className="page-setup">
+                <Navbar />
 
-    return (
-        <div className="page-setup">
-            <Navbar />
-            <div className="align-middle items-center justify-items-center flex justify-center h-screen flex-col">
-                <WebcamOpen />
-                <button
-                    className="rounded-full border-solid w-40 h-12 bg-blue-500 text-white"
-
-                    onClick={
-                        () => {
-                            if (openedWebcam === true) {
-                                setOpenedWebcam(false);
-                                setButtonMsg("Scan Receipt")
-                            } else {
-                                setOpenedWebcam(true);
-                                setButtonMsg("Exit");
-                            }
-                        }
-                    }>{buttonMsg}</button>
-                {/* <input type='file' id="image" /> */}
             </div>
-        </div>
+        );
+    } else {
+        return (
+            <div className="page-setup">
+                <Navbar />
+                <div className="align-middle items-center justify-items-center flex justify-center h-screen flex-col">
+                    <WebcamOpen />
+                    <button
+                        className="rounded-full border-solid w-40 h-12 bg-blue-500 text-white"
+    
+                        onClick={
+                            () => {
+                                if (openedWebcam === true) {
+                                    setOpenedWebcam(false);
+                                    setButtonMsg("Scan Receipt")
+                                } else {
+                                    setOpenedWebcam(true);
+                                    setButtonMsg("Exit");
+                                }
+                            }
+                        }>{buttonMsg}</button>
+                    {/* <input type='file' id="image" /> */}
+                </div>
+            </div>
+    
+        );
+    }
 
-    );
+    
 
 
 }
