@@ -96,7 +96,24 @@ def write():
 #             con.close()
 #             # Send the transaction message to result.html
 #             return render_template('result.html',msg=msg)
+
+@app.route("/get-receipts")
+def getReceipts():
+    db = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="Dermott23!",
+        database="mcHacksDB"
+        )
     
+    cursor = db.cursor()
+
+        
+        
+    cursor.execute("SELECT * FROM receipts") 
+    data = cursor.fetchall() 
+    cursor.close()
+    return data
 
 
 @app.route("/upload", methods=['POST'])
@@ -144,7 +161,10 @@ def uploadSnapshot():
             return list_prices
 
         def total_price(list_prices):
-            return max(list_prices)
+            try:
+                return max(list_prices)
+            except:
+                return None
 
         def find_date(word_list):
             for i in range(len(word_list)):
@@ -199,7 +219,7 @@ def uploadSnapshot():
             cursor = db.cursor()
 
             query = 'INSERT INTO receipts (name, location, price, date) VALUES (%s, %s, %s, %s)'
-            values = (name, date, location, total)
+            values = (name, location, total, date)
 
 
             cursor.execute(query, values)
