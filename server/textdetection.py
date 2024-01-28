@@ -7,6 +7,12 @@ import numpy as np
 import pytesseract
 import cv2
 
+############################################################## changes
+from flask import render_template
+import sqlite3
+from flask import request
+##############################################################
+
 
 app = Flask(__name__)
 
@@ -21,6 +27,32 @@ class Receipt:
         self.date = date
         self.location = location
         self.price = price
+        
+        
+        
+############################################################## changes made
+@app.route("/addrec", methods = ['POST', 'GET'])
+def addrec():
+    # Data will be available from POST submitted by the form
+    if request.method == 'POST':
+        try:
+
+            # Connect to SQLite3 database and execute the INSERT
+            with sqlite3.connect('database.db') as con:
+                cur = con.cursor()
+                cur.execute("INSERT INTO receipts (name TEXT, location TEXT, price TEXT, date TEXT) VALUES (?,?,?,?)",("1", "2", "3", "4"))
+
+                con.commit()
+                msg = "Record successfully added to database"
+        except:
+            con.rollback()
+            msg = "Error in the INSERT"
+
+        finally:
+            con.close()
+            # Send the transaction message to result.html
+            return render_template('result.html',msg=msg)
+#############################################################
     
     
 
