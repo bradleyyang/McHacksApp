@@ -1,9 +1,12 @@
 import { BiAtom } from "react-icons/bi";
 
 const NavbarIcon = ({ icon }) => {
-    <div className="sidebar-icon">
+    return(
+        <div className="sidebar-icon">
         {icon}
-    </div>
+        </div>
+    );
+    
 }
 
 const Navbar = () => {

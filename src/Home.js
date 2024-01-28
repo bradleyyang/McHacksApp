@@ -97,7 +97,16 @@ const Home = () => {
         <div>
             <Navbar />
             <div className="align-middle items-center justify-items-center flex justify-center h-screen flex-col">
+                <button
+                onClick={
+                    () => {
+                        fetch("/test", {
+                            method: "POST",
 
+                        })
+                    }
+                }
+                >Post test</button>
                 <WebcamOpen />
                 <button
                     className="rounded-full border-solid w-40 h-12 bg-blue-500 text-white"
