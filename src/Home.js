@@ -1,6 +1,7 @@
 import Webcam from "react-webcam";
 // import axios from 'axios';
 import { useEffect, useState, useRef, useCallback } from "react";
+import Navbar from "./Navbar";
 
 const Home = () => {
     const [data, setData] = useState([]);
@@ -33,15 +34,15 @@ const Home = () => {
             // const base64Data = img.split("base64, ")[1];
             console.log(imgSrc);
             console.log(imgSrc.split(','));
-            
+
             fetch("/upload", {
                 method: "POST",
                 body: JSON.stringify({
-                    'imgData' : imgSrc
+                    'imgData': imgSrc
                 }),
                 headers: {
                     "Content-Type": "application/json"
-                    }
+                }
             });
         }
         // reader.addEventListener("load", () => {
@@ -61,7 +62,8 @@ const Home = () => {
             );
         } else {
             return (
-                <div>
+                <div >
+
                     <Webcam
                         screenshotFormat="image/png"
                         ref={webcamRef}
@@ -92,19 +94,27 @@ const Home = () => {
 
 
     return (
-        <div className="home">
-            <WebcamOpen />
-            <button onClick={
-                () => {
-                    if (openedWebcam === true) {
-                        setOpenedWebcam(false);
-                    } else {
-                        setOpenedWebcam(true);
-                    }
-                }
-            }>Toggle Webcam</button>
-            {/* <input type='file' id="image" /> */}
+        <div>
+            <Navbar />
+            <div className="align-middle items-center justify-items-center flex justify-center h-screen flex-col">
+
+                <WebcamOpen />
+                <button
+                    className="rounded-full border-solid w-40 h-12 bg-blue-500 text-white"
+
+                    onClick={
+                        () => {
+                            if (openedWebcam === true) {
+                                setOpenedWebcam(false);
+                            } else {
+                                setOpenedWebcam(true);
+                            }
+                        }
+                    }>Toggle Webcam</button>
+                {/* <input type='file' id="image" /> */}
+            </div>
         </div>
+
     );
 
 
