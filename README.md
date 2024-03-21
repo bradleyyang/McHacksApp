@@ -2,10 +2,12 @@
 ---
 # What to install
 Install Python at [https://www.python.org/downloads/](https://www.python.org/downloads/)  
+
 Install **pytesseract** and **opencv**  
 - pip install pytesseract opencv-python
     
 Install **Node.js** at [https://nodejs.org/en/download](https://nodejs.org/en/download)  
+
 Install **Flask**
 - pip install Flask  
 
